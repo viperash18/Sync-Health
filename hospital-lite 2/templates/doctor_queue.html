@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %} · My Queue{% endblock %}
+{% block content %}
+<h1>My queue — {{ today }}</h1>
+<p class="muted">Patients appear here as reception checks them in. Move each one along as you see them.</p>
+<div id="board" hx-get="{{ url_for('doctor.board_fragment') }}" hx-trigger="every 3s" hx-swap="innerHTML">
+  {% include "partials/doctor_board.html" %}
+</div>
+{% endblock %}

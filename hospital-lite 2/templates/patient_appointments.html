@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %} · My Appointments{% endblock %}
+{% block content %}
+<div class="row">
+  <h1>My appointments</h1>
+  <a class="btn" href="{{ url_for('patient.book') }}">Book new</a>
+</div>
+<p class="muted">This updates on its own as the clinic checks you in and the doctor sees you.</p>
+<div id="appts" hx-get="{{ url_for('patient.appointments_fragment') }}" hx-trigger="every 4s" hx-swap="innerHTML">
+  {% include "partials/patient_appt_list.html" %}
+</div>
+{% endblock %}

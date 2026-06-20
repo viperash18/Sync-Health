@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} · Staff{% endblock %}
+{% block content %}
+<h1>Staff accounts</h1>
+
+<div class="card">
+  <h2 style="margin-top:0">Create a staff login</h2>
+  <form class="stack" method="post">
+    <div><label>Name</label><input type="text" name="name" required></div>
+    <div><label>Email</label><input type="email" name="email" required></div>
+    <div><label>Password (6+ characters)</label><input type="password" name="password" required></div>
+    <div><label>Role</label>
+      <select name="role"><option value="reception">reception</option><option value="doctor">doctor</option><option value="admin">admin</option></select>
+    </div>
+    <div><label>Link to doctor profile (doctor role only)</label>
+      <select name="doctor_id">
+        <option value="">— none —</option>
+        {% for d in free_doctors %}<option value="{{ d.id }}">{{ d.name }} — {{ d.specialization }}</option>{% endfor %}
+      </select>
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+</div>
+
+<h2>Existing staff</h2>
+<table>
+  <tr><th>Name</th><th>Email</th><th>Role</th><th>Linked doctor</th></tr>
+  {% for u in users %}
+  <tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td><td>{{ u.doctor_name or '—' }}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

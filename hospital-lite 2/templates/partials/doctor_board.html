@@ -1,0 +1,38 @@
+{% if appointments %}
+  {% for a in appointments %}
+    <div class="card">
+      <div class="row">
+        <div>
+          <strong>{{ a.appt_time }} · {{ a.patient_name }}</strong>
+          <span class="muted">
+            {% if a.age %}· {{ a.age }}y {% endif %}{% if a.gender %}· {{ a.gender }} {% endif %}· {{ a.phone }}
+          </span>
+          {% if a.reason %}<div class="muted">Reason: {{ a.reason }}</div>{% endif %}
+        </div>
+        <span class="badge {{ a.status }}">{{ a.status }}</span>
+      </div>
+
+      <div class="row" style="margin-top:0.5rem">
+        <div>
+          {% if a.status == 'in-progress' %}
+            <textarea class="note-box" name="note" rows="2" placeholder="Visit note (saved when you complete)"></textarea>
+          {% endif %}
+        </div>
+        <div class="row" style="gap:0.5rem">
+          {% if a.status in ['booked','checked-in','in-progress'] %}
+            <button hx-post="{{ url_for('doctor.advance', appt_id=a.id) }}"
+                    hx-include="closest .card"
+                    hx-target="#board" hx-swap="innerHTML">
+              {% if a.status == 'booked' %}Check in{% elif a.status == 'checked-in' %}Start visit{% else %}Complete{% endif %}
+            </button>
+            <button class="danger"
+                    hx-post="{{ url_for('doctor.cancel', appt_id=a.id) }}"
+                    hx-target="#board" hx-swap="innerHTML">Cancel</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="empty">No appointments for today.</p>
+{% endif %}

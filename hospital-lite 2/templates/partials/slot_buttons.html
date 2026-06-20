@@ -1,0 +1,9 @@
+{% if slots %}
+  {% for s in slots %}
+    <label class="slot-btn btn secondary">
+      <input type="radio" name="appt_time" value="{{ s }}" required> {{ s }}
+    </label>
+  {% endfor %}
+{% else %}
+  <p class="muted">No free slots for that day — try another date.</p>
+{% endif %}

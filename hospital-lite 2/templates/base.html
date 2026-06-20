@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hospital-Lite{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- HTMX is the only client library: it swaps in HTML fragments from the
+       server, giving live updates with almost no hand-written JavaScript. -->
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('auth.index') }}">🏥 Hospital-Lite</a>
+    <nav>
+      {% if user %}
+        {% if user.role == 'patient' %}
+          <a href="{{ url_for('patient.book') }}">Book</a>
+          <a href="{{ url_for('patient.appointments') }}">My Appointments</a>
+        {% elif user.role == 'doctor' %}
+          <a href="{{ url_for('doctor.queue') }}">My Queue</a>
+        {% elif user.role == 'reception' %}
+          <a href="{{ url_for('reception.desk') }}">Front Desk</a>
+        {% elif user.role == 'admin' %}
+          <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('admin.doctors') }}">Doctors</a>
+          <a href="{{ url_for('admin.staff') }}">Staff</a>
+          <a href="{{ url_for('reception.desk') }}">Front Desk</a>
+        {% endif %}
+        <span class="who">{{ user.name }} ({{ user.role }})</span>
+        <a class="btn-link" href="{{ url_for('auth.logout') }}">Log out</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}">Log in</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

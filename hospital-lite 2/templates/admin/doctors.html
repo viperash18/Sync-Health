@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %} · Doctors{% endblock %}
+{% block content %}
+<h1>Doctors</h1>
+
+<div class="card">
+  <h2 style="margin-top:0">Add a doctor</h2>
+  <form class="stack" method="post">
+    <div class="row" style="gap:0.5rem">
+      <div style="flex:1"><label>Name</label><input type="text" name="name" required></div>
+      <div style="flex:1"><label>Specialization</label><input type="text" name="specialization" required></div>
+    </div>
+    <div class="row" style="gap:0.5rem">
+      <div style="width:120px"><label>Room</label><input type="text" name="room"></div>
+      <div style="width:120px"><label>Start</label><input type="time" name="work_start" value="09:00"></div>
+      <div style="width:120px"><label>End</label><input type="time" name="work_end" value="17:00"></div>
+      <div style="width:120px"><label>Slot (min)</label><input type="number" name="slot_minutes" value="30" min="5"></div>
+    </div>
+    <button type="submit">Add doctor</button>
+  </form>
+</div>
+
+<h2>All doctors</h2>
+<table>
+  <tr><th>Name</th><th>Specialization</th><th>Room</th><th>Hours</th><th>Status</th><th></th></tr>
+  {% for d in doctors %}
+  <tr>
+    <td>{{ d.name }}</td><td>{{ d.specialization }}</td><td>{{ d.room }}</td>
+    <td>{{ d.work_start }}–{{ d.work_end }} / {{ d.slot_minutes }}m</td>
+    <td>{% if d.active %}<span class="badge active">active</span>{% else %}<span class="badge inactive">inactive</span>{% endif %}</td>
+    <td>
+      <form method="post" action="{{ url_for('admin.toggle_doctor', doctor_id=d.id) }}">
+        <button class="secondary" type="submit">{% if d.active %}Deactivate{% else %}Activate{% endif %}</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}

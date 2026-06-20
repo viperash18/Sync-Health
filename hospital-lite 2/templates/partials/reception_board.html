@@ -1,0 +1,22 @@
+{% if appointments %}
+  {% for a in appointments %}
+    <div class="card row">
+      <div>
+        <strong>{{ a.appt_time }} · {{ a.patient_name }}</strong>
+        <span class="muted">· {{ a.phone }}</span>
+        <div class="muted">{{ a.doctor_name }} — {{ a.specialization }}{% if a.reason %} · {{ a.reason }}{% endif %}</div>
+      </div>
+      <div class="row" style="gap:0.5rem">
+        <span class="badge {{ a.status }}">{{ a.status }}</span>
+        {% if a.status == 'booked' %}
+          <button hx-post="{{ url_for('reception.checkin', appt_id=a.id) }}" hx-target="#board" hx-swap="innerHTML">Check in</button>
+        {% endif %}
+        {% if a.status not in ['completed'] %}
+          <button class="danger" hx-post="{{ url_for('reception.cancel', appt_id=a.id) }}" hx-target="#board" hx-swap="innerHTML">Cancel</button>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="empty">No appointments for {{ day }}.</p>
+{% endif %}

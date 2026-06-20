@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} · Dashboard{% endblock %}
+{% block content %}
+<h1>Dashboard — {{ today }}</h1>
+<div class="stats">
+  <div class="stat"><div class="n">{{ stats.appts_today }}</div><div class="l">Appointments today</div></div>
+  <div class="stat"><div class="n">{{ stats.completed_today }}</div><div class="l">Completed today</div></div>
+  <div class="stat"><div class="n">{{ stats.active_doctors }}</div><div class="l">Active doctors</div></div>
+  <div class="stat"><div class="n">{{ stats.total_patients }}</div><div class="l">Patients on file</div></div>
+</div>
+
+<h2>Today by doctor</h2>
+<table>
+  <tr><th>Doctor</th><th>Specialization</th><th>Booked</th><th>Completed</th></tr>
+  {% for d in by_doctor %}
+  <tr><td>{{ d.name }}</td><td>{{ d.specialization }}</td><td>{{ d.booked }}</td><td>{{ d.completed or 0 }}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

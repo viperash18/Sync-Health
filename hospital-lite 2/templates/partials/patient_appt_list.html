@@ -1,0 +1,17 @@
+{% if appointments %}
+  {% for a in appointments %}
+    <div class="card">
+      <div class="row">
+        <div>
+          <strong>{{ a.doctor_name }}</strong> <span class="muted">· {{ a.specialization }}</span>
+          <div class="muted">{{ a.appt_date }} at {{ a.appt_time }}{% if a.room %} · Room {{ a.room }}{% endif %}</div>
+          {% if a.reason %}<div class="muted">Reason: {{ a.reason }}</div>{% endif %}
+          {% if a.note %}<div class="muted">Doctor's note: {{ a.note }}</div>{% endif %}
+        </div>
+        <span class="badge {{ a.status }}">{{ a.status }}</span>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p class="empty">No appointments yet. <a href="{{ url_for('patient.book') }}">Book one</a>.</p>
+{% endif %}

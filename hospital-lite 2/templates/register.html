@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %} · Register{% endblock %}
+{% block content %}
+<h1>Create a patient account</h1>
+<form class="stack" method="post">
+  <div><label>Full name</label><input type="text" name="name" required></div>
+  <div><label>Email</label><input type="email" name="email" required></div>
+  <div><label>Phone</label><input type="tel" name="phone" required></div>
+  <div><label>Password (6+ characters)</label><input type="password" name="password" required></div>
+  <button type="submit">Register</button>
+</form>
+<p class="muted" style="margin-top:1rem">Already registered? <a href="{{ url_for('auth.login') }}">Log in</a>.</p>
+{% endblock %}

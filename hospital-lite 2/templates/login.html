@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %} · Log in{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<form class="stack" method="post">
+  <div><label>Email</label><input type="email" name="email" required></div>
+  <div><label>Password</label><input type="password" name="password" required></div>
+  <button type="submit">Log in</button>
+</form>
+<p class="muted" style="margin-top:1rem">
+  New patient? <a href="{{ url_for('auth.register') }}">Create an account</a>.<br>
+  Demo: admin@hospital.com / admin123 · reception@hospital.com / reception123 ·
+  asha.mehta@hospital.com / doctor123 · patient@hospital.com / patient123
+</p>
+{% endblock %}
